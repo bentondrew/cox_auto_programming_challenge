@@ -9,4 +9,4 @@ def app():
                                '%(levelname)s - '
                                '%(message)s')
     logging.info('Testing.')
-    return test()
+    print(test())
