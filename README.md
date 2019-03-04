@@ -5,7 +5,7 @@ Code for Cox Auto programming challenge.
 From the directory containing the Dockerfile:
 
 ```Bash
-docker build -t wpe_merge:0.0.3 .
+docker build -t cox_auto_app:0.0.1 .
 ```
 
 ## Docker image run instructions to execute wpe_merge executable
