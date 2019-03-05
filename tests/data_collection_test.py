@@ -50,9 +50,9 @@ class TestGetDatasetid(object):
     @mock.patch('cox_auto_app.data_collection.get_json_request')
     def test_return_value_for_key_not_str(self, mock_get):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
-        json_data = {'datasetid': True}
+        json_data = {'datasetId': True}
         expected_error = ('Data returned {} from {} does not have value '
-                          'of type str for key datasetid.'
+                          'of type str for key datasetId.'
                           .format(json_data, url))
         mock_get.return_value = json_data
         with pytest.raises(RuntimeError, match=expected_error):
@@ -61,6 +61,6 @@ class TestGetDatasetid(object):
     # good test
     @mock.patch('cox_auto_app.data_collection.get_json_request')
     def test_good_return(self, mock_get):
-        json_data = {'datasetid': 'test'}
+        json_data = {'datasetId': 'test'}
         mock_get.return_value = json_data
-        assert get_dataset_id() == json_data['datasetid']
+        assert get_dataset_id() == json_data['datasetId']
