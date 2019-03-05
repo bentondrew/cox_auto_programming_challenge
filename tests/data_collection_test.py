@@ -50,7 +50,7 @@ class TestGetDatasetid(object):
     @mock.patch('cox_auto_app.data_collection.get_json_request')
     def test_return_value_for_key_not_str(self, mock_get):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
-        json_data = {'test': True}
+        json_data = {'datasetid': True}
         expected_error = ('Data returned from {} does not have value '
                           'of type str for key datasetid.'.format(url))
         mock_get.return_value = json_data
