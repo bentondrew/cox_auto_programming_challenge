@@ -134,8 +134,6 @@ class TestGetVehicleids(object):
     @mock.patch('cox_auto_app.data_collection.get_json_request')
     def test_value_in_list_not_int(self, mock_get):
         data_set_id = '7'
-        url = ('https://vautointerview.azurewebsites.net/api/{}/vehicles'
-               .format(data_set_id))
         json_data = {'vehicleIds': [1, 'hi']}
         # Not testing for error message match due to issue with
         # long string comparisons in pytest.
