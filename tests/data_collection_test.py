@@ -40,12 +40,12 @@ class TestGetDatasetid(object):
         with pytest.raises(RuntimeError, match=expected_error):
             get_dataset_id()
 
-    @mock.patch('cox_auto_app.data_collection.get_json_request')
-    def test_key_not_in_return(self, mock_get):
+    def test_key_not_in_return(self):
         json_data = {'test': True}
-        mock_get.return_value = json_data
-        with pytest.raises(KeyError):
-            get_dataset_id()
+        with mock.patch('cox_auto_app.data_collection.get_json_request',
+                        return_value=json_data):
+            with pytest.raises(KeyError):
+                get_dataset_id()
 
     @mock.patch('cox_auto_app.data_collection.get_json_request')
     def test_return_value_for_key_not_str(self, mock_get):
