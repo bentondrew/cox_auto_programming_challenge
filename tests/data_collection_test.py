@@ -43,7 +43,7 @@ class TestGetDatasetid(object):
     @mock.patch('cox_auto_app.data_collection.get_json_request')
     def test_key_not_in_return(self, mock_get):
         json_data = {'test': True}
-        mock_get.return_value.json.return_value = json_data
+        mock_get.return_value = json_data
         with pytest.raises(KeyError):
             get_dataset_id()
 
