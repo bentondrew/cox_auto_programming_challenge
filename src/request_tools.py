@@ -16,7 +16,7 @@ def get_json_request(url):
         if 'application/json' in resp.headers['content-type']:
             return resp.json()
         else:
-            raise RuntimeError('Expected html content type '
+            raise RuntimeError('Expected json content type '
                                'from url {} but got {}'
                                .format(url, resp.headers['content-type']))
     else:

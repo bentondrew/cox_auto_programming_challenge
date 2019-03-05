@@ -23,7 +23,7 @@ class TestGetJson(object):
         return_content = 'bad'
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = {'content-type': return_content}
-        expected_error = ('Expected html content type '
+        expected_error = ('Expected json content type '
                           'from url {} but got {}'
                           .format(url, return_content))
         with pytest.raises(RuntimeError, match=expected_error):
@@ -32,7 +32,7 @@ class TestGetJson(object):
     @mock.patch('requests.get')
     def test_good_return(self, mock_get):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
-        return_content = 'text/html'
+        return_content = 'application/json'
         json_data = {'test': True}
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = {'content-type': return_content}
