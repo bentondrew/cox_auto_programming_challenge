@@ -9,6 +9,6 @@ WORKDIR /home/python_user
 COPY service/ .
 COPY tests/ ./tests
 COPY src/ /usr/lib/python3.6/site-packages/cox_auto_app
-RUN chmod +x ./wpe_merge
+RUN chmod +x ./service
 USER python_user
 ENTRYPOINT ["./service"]
