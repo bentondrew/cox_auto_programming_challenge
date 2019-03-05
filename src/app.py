@@ -11,6 +11,5 @@ def main():
     try:
         logging.info('Testing.')
         print(test())
-        raise RuntimeError('Test exception')
     except Exception:
         logging.error('Exception', exc_info=True)
