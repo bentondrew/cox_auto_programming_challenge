@@ -1,8 +1,8 @@
 import logging
-from cox_auto_app.app_test import test
+from .app_test import test
 
 
-def app():
+def main():
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - '
                                '%(name)s - '
