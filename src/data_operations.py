@@ -1,6 +1,6 @@
-from .request_tools import (get_json_request)
+from .data_collection import (get_dataset_id)
 
 
 def merge():
-    url = 'https://vautointerview.azurewebsites.net/api/datasetid'
-    return get_json_request(url=url)
+    data_set_id = get_dataset_id
+    return data_set_id
