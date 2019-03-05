@@ -63,4 +63,4 @@ class TestGetDatasetid(object):
     def test_good_return(self, mock_get):
         json_data = {'datasetid': 'test'}
         mock_get.return_value = json_data
-        assert get_dataset_id() == json_data
+        assert get_dataset_id() == json_data['datasetid']

@@ -13,8 +13,8 @@ def get_dataset_id():
     with a string value. Explicitly attempts to access
     'datasetid' key to raise KeyError if key doesn't exist.
 
-    Returns a dictionary which has a 'datasetId' key with a
-    sting value.
+    Returns the sting value for the 'datasetId' key in the
+    received dict.
     """
     url = 'https://vautointerview.azurewebsites.net/api/datasetid'
     data_set_id = get_json_request(url=url)
@@ -28,4 +28,4 @@ def get_dataset_id():
         raise RuntimeError('Data returned {} from {} does not have value '
                            'of type str for key datasetid.'
                            .format(data_set_id, url))
-    return data_set_id
+    return value
