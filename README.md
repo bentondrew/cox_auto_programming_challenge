@@ -21,6 +21,11 @@ docker run --rm cox_auto_app:0.0.1
 docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/
 ```
 
+### Run request tools unit tests
+```Bash
+docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/request_tools_test.py
+```
+
 ### Run test unit tests
 ```Bash
 docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/test_test.py
