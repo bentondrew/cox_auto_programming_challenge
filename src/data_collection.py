@@ -48,7 +48,8 @@ def get_vehicle_ids(data_set_id):
 
     Returns a list of the vehicle ids.
     """
-    url = 'https://vautointerview.azurewebsites.net/api/{}/vehicles'
+    url = ('https://vautointerview.azurewebsites.net/api/{}/vehicles'
+           .format(data_set_id))
     vehicle_id_dict = get_json_request(url=url)
     if type(vehicle_id_dict) is not dict:
         raise RuntimeError('Data returned {} from {} is not of type '
