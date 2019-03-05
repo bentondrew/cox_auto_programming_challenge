@@ -5,7 +5,7 @@ from cox_auto_app.request_tools import (get_json_request)
 
 class TestGetJson(object):
     """
-    Tests for download_status function.
+    Tests for get_json_request function.
     """
     @mock.patch('requests.get')
     def test_bad_status(self, mock_get):
@@ -15,7 +15,7 @@ class TestGetJson(object):
         expected_error = ('Got unexpected status code {} from url '
                           '{}'.format(return_status, url))
         with pytest.raises(RuntimeError, match=expected_error):
-            get_json_request(url)
+            get_json_request(url=url)
 
     @mock.patch('requests.get')
     def test_bad_content(self, mock_get):
@@ -27,7 +27,7 @@ class TestGetJson(object):
                           'from url {} but got {}'
                           .format(url, return_content))
         with pytest.raises(RuntimeError, match=expected_error):
-            get_json_request(url)
+            get_json_request(url=url)
 
     @mock.patch('requests.get')
     def test_good_return(self, mock_get):
@@ -37,4 +37,4 @@ class TestGetJson(object):
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = {'content-type': return_content}
         mock_get.return_value.json.return_value = json_data
-        assert get_json_request(url) == json_data
+        assert get_json_request(url=url) == json_data
