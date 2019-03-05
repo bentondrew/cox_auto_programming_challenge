@@ -8,9 +8,7 @@ From the directory containing the Dockerfile:
 docker build -t cox_auto_app:0.0.1 .
 ```
 
-## Docker image run instructions to execute wpe_merge executable
-Running from the location containing which contains the `data`
-directory. The `data` directory contains the input .csv file(s).
+## Docker image run instructions to execute service executable
 ```Bash
 docker run --rm cox_auto_app:0.0.1
 ```
