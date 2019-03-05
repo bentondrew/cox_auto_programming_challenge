@@ -6,7 +6,9 @@ from cox_auto_app.data_operations import (merge)
 class TestMergeErrorInDatasetidCollection(object):
     """
     Tests for expected exceptions in datasetid collection in
-    merge function.
+    merge function. These tests demonstrate expected failure
+    modes for get_dataset_id function in addition to testing
+    the calling of this function by the merge function.
     """
     @mock.patch('cox_auto_app.data_operations.get_dataset_id')
     def test_bad_status(self, mock_get_dataset):
@@ -57,7 +59,9 @@ class TestMergeErrorInDatasetidCollection(object):
 class TestMergeErrorInVehicleidsCollection(object):
     """
     Tests for expected exceptions in vehicleIds collection in
-    merge function.
+    merge function. These tests demonstrate expected failure
+    modes for the get_vehicle_ids function in addition to testing
+    the calling of this function by the merge function.
     """
     @mock.patch('cox_auto_app.data_operations.get_vehicle_ids')
     @mock.patch('cox_auto_app.data_operations.get_dataset_id')
