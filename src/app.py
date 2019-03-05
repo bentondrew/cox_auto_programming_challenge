@@ -1,5 +1,5 @@
 import logging
-from .app_test import test
+from .data_operations import merge
 
 
 def main():
@@ -9,7 +9,8 @@ def main():
                                '%(levelname)s - '
                                '%(message)s')
     try:
-        logging.info('Testing.')
-        print(test())
+        logging.info('Merging vehicle and dealer information for '
+                     'datasets.')
+        print(merge())
     except Exception:
         logging.error('Exception', exc_info=True)
