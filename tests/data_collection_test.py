@@ -34,8 +34,8 @@ class TestGetDatasetid(object):
     def test_return_not_dict(self, mock_get):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
         json_data = 1
-        expected_error = ('Data returned from {} is not of type '
-                          'dict.'.format(url))
+        expected_error = ('Data returned {} from {} is not of type '
+                          'dict.'.format(json_data, url))
         mock_get.return_value = json_data
         with pytest.raises(RuntimeError, match=expected_error):
             get_dataset_id()
