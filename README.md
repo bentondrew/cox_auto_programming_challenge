@@ -32,3 +32,5 @@ docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/data_operations_t
 ```Bash
 docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/data_collection_test.py
 ```
+* Note: Currently doesn't implement tests for get_dealer_names and get_data_for_vehicles
+        which implement threads.
