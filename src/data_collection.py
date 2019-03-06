@@ -1,3 +1,4 @@
+import logging
 from threading import (Thread)
 from .request_tools import (get_json_request)
 
@@ -110,6 +111,8 @@ def get_data_for_vehicles(data_set_id, vehicle_ids):
         v_thread.join()
     for vehicle_id in download_return:
         vehicle_info = download_return[vehicle_id]
+        logging.info('Data for vehicle id {}: {}'
+                     .format(vehicle_id, vehicle_info))
         if 'error_message' in vehicle_info:
             if error_list:
                 error_list.append(vehicle_info)
@@ -168,10 +171,9 @@ def get_vehicle_data(url, data_return):
     try:
         vehicle_info_dict = get_json_request(url=url)
         if type(vehicle_info_dict) is not dict:
-            data_return['error_message'] = ('Data returned {} from {} is not '
-                                            'of type dict.'
-                                            .format(vehicle_info_dict, url))
-            return
+            raise RuntimeError('Data returned {} from {} is not '
+                               'of type dict.'
+                               .format(vehicle_info_dict, url))
         expected_keys_and_types = {'vehicleId': int,
                                    'year': int,
                                    'make': str,
@@ -179,24 +181,26 @@ def get_vehicle_data(url, data_return):
                                    'dealerId': int}
         for key in expected_keys_and_types:
             if key not in vehicle_info_dict:
-                data_return['error_message'] = ('Key {} not found in vehicle '
-                                                'info dict {} returned from '
-                                                'url {}'
-                                                .format(key,
-                                                        vehicle_info_dict,
-                                                        url))
-                return
+                raise RuntimeError('Key {} not found in vehicle '
+                                   'info dict {} returned from '
+                                   'url {}'
+                                   .format(key,
+                                           vehicle_info_dict,
+                                           url))
             if type(vehicle_info_dict
                     [key]) is not expected_keys_and_types[key]:
-                data_return['error_message'] = ('Value {} is not type {} '
-                                                'in vehicle info '
-                                                'dict {} returned from url {}'
-                                                .format(vehicle_info_dict[key],
-                                                        expected_keys_and_types
-                                                        [key],
-                                                        vehicle_info_dict,
-                                                        url))
-                return
+                raise RuntimeError('Value {} is not type {} '
+                                   'in vehicle info '
+                                   'dict {} returned from url {}'
+                                   .format(vehicle_info_dict[key],
+                                           expected_keys_and_types
+                                           [key],
+                                           vehicle_info_dict,
+                                           url))
         data_return = vehicle_info_dict
+        logging.info('data_return for url {}: {}'
+                     .format(url, data_return))
     except Exception as e:
         data_return['error_message'] = e
+        logging.info('data_return for url {}: {}'
+                     .format(url, data_return))
