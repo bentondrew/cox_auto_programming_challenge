@@ -3,7 +3,6 @@ Code for Cox Auto programming challenge.
 
 ## Docker image build instructions 
 From the directory containing the Dockerfile:
-
 ```Bash
 docker build -t cox_auto_app:0.0.1 .
 ```
