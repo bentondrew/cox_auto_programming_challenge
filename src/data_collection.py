@@ -188,8 +188,8 @@ def get_vehicle_data(url, data_return, vehicle_id):
                                    'in vehicle info '
                                    'dict {} returned from url {}'
                                    .format(vehicle_info_dict[key],
-                                           str(expected_keys_and_types
-                                           [key]),
+                                           expected_keys_and_types
+                                           [key].__name__,
                                            vehicle_info_dict,
                                            url))
         data_return[vehicle_id] = vehicle_info_dict
@@ -294,8 +294,8 @@ def get_dealer_info(url, data_return, dealer_id):
                                    'in dealer info '
                                    'dict {} returned from url {}'
                                    .format(dealer_info_dict[key],
-                                           str(expected_keys_and_types
-                                           [key]),
+                                           expected_keys_and_types
+                                           [key].__name__,
                                            dealer_info_dict,
                                            url))
         data_return[dealer_id] = dealer_info_dict
