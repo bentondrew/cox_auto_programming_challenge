@@ -100,7 +100,7 @@ def get_data_for_vehicles(data_set_id, vehicle_ids):
     for vehicle_id in vehicle_ids:
         url = ('https://vautointerview.azurewebsites.net/api/{}/vehicles/{}'
                .format(data_set_id, vehicle_id))
-        download_return[vehicle_id] = None
+        download_return[vehicle_id] = {}
         kwargs = {'url': url,
                   'data_return': download_return[vehicle_id]}
         v_thread = Thread(target=get_vehicle_data, kwargs=kwargs)
