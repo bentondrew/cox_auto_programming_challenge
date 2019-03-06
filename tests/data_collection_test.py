@@ -2,7 +2,8 @@ import mock
 import pytest
 from cox_auto_app.data_collection import (get_dataset_id,
                                           get_vehicle_ids,
-                                          get_vehicle_data)
+                                          get_vehicle_data,
+                                          get_dealer_info)
 
 
 class TestGetDatasetid(object):
@@ -306,3 +307,150 @@ class TestGetVehicleData(object):
                          vehicle_id=vehicle_id)
         assert vehicle_id in data_return
         assert data_return.get(vehicle_id) == json_data
+
+
+class TestGetDealerInfo(object):
+    """
+    Tests for get_dealer_info function.
+    """
+    # get_json_request pass through tests.
+    @mock.patch('cox_auto_app.data_collection.get_json_request')
+    def test_bad_status(self, mock_get):
+        data_set_id = '7'
+        dealer_id = 8
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        return_status = 500
+        expected_error = ('Got unexpected status code {} from url '
+                          '{}'.format(return_status, url))
+        mock_get.side_effect = RuntimeError(expected_error)
+        data_return = {dealer_id: {}}
+        get_dealer_info(url=url,
+                        data_return=data_return,
+                        dealer_id=dealer_id)
+        assert dealer_id in data_return
+        expected_keys = ['dealerId', 'error_message']
+        for key in expected_keys:
+            assert key in data_return.get(dealer_id)
+            if key == 'dealerId':
+                assert data_return.get(dealer_id).get(key) == dealer_id
+            if key == 'error_message':
+                assert data_return.get(dealer_id).get(key) == expected_error
+
+    @mock.patch('cox_auto_app.data_collection.get_json_request')
+    def test_bad_content(self, mock_get):
+        data_set_id = '7'
+        dealer_id = 8
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        return_content = 'bad'
+        expected_error = ('Expected html content type '
+                          'from url {} but got {}'
+                          .format(url, return_content))
+        mock_get.side_effect = RuntimeError(expected_error)
+        data_return = {dealer_id: {}}
+        get_dealer_info(url=url,
+                        data_return=data_return,
+                        dealer_id=dealer_id)
+        assert dealer_id in data_return
+        expected_keys = ['dealerId', 'error_message']
+        for key in expected_keys:
+            assert key in data_return.get(dealer_id)
+            if key == 'dealerId':
+                assert data_return.get(dealer_id).get(key) == dealer_id
+            if key == 'error_message':
+                assert data_return.get(dealer_id).get(key) == expected_error
+
+    # get_dealer_info generated exceptions
+    @mock.patch('cox_auto_app.data_collection.get_json_request')
+    def test_return_not_dict(self, mock_get):
+        data_set_id = '7'
+        dealer_id = 8
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        json_data = 1
+        expected_error = ('Data returned {} from {} is not of type '
+                          'dict.'.format(json_data, url))
+        mock_get.return_value = json_data
+        data_return = {dealer_id: {}}
+        get_dealer_info(url=url,
+                        data_return=data_return,
+                        dealer_id=dealer_id)
+        assert dealer_id in data_return
+        expected_keys = ['dealerId', 'error_message']
+        for key in expected_keys:
+            assert key in data_return.get(dealer_id)
+            if key == 'dealerId':
+                assert data_return.get(dealer_id).get(key) == dealer_id
+            if key == 'error_message':
+                assert data_return.get(dealer_id).get(key) == expected_error
+
+    @mock.patch('cox_auto_app.data_collection.get_json_request')
+    def test_key_not_in_return(self, mock_get):
+        data_set_id = '7'
+        dealer_id = 8
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        json_data = {'dealerId': 1}
+        expected_error = ('"Key name not found in dealer '
+                          'info dict {} returned from '
+                          'url {}"'
+                          .format(json_data,
+                                  url))
+        mock_get.return_value = json_data
+        data_return = {dealer_id: {}}
+        get_dealer_info(url=url,
+                        data_return=data_return,
+                        dealer_id=dealer_id)
+        assert dealer_id in data_return
+        expected_keys = ['dealerId', 'error_message']
+        for key in expected_keys:
+            assert key in data_return.get(dealer_id)
+            if key == 'dealerId':
+                assert data_return.get(dealer_id).get(key) == dealer_id
+            if key == 'error_message':
+                assert data_return.get(dealer_id).get(key) == expected_error
+
+    @mock.patch('cox_auto_app.data_collection.get_json_request')
+    def test_return_value_for_key_not_correct(self, mock_get):
+        data_set_id = '7'
+        dealer_id = 8
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        json_data = {'name': 7.5,
+                     'dealerId': 1}
+        expected_error = ('Value 7.5 is not type str '
+                          'in dealer info '
+                          'dict {} returned from url {}'
+                          .format(json_data,
+                                  url))
+        mock_get.return_value = json_data
+        data_return = {dealer_id: {}}
+        get_dealer_info(url=url,
+                        data_return=data_return,
+                        dealer_id=dealer_id)
+        assert dealer_id in data_return
+        expected_keys = ['dealerId', 'error_message']
+        for key in expected_keys:
+            assert key in data_return.get(dealer_id)
+            if key == 'dealerId':
+                assert data_return.get(dealer_id).get(key) == dealer_id
+            if key == 'error_message':
+                assert data_return.get(dealer_id).get(key) == expected_error
+
+    # good test
+    @mock.patch('cox_auto_app.data_collection.get_json_request')
+    def test_good_return(self, mock_get):
+        data_set_id = '7'
+        dealer_id = 8
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        json_data = {'name': 'test',
+                     'dealerId': 1}
+        mock_get.return_value = json_data
+        data_return = {dealer_id: {}}
+        get_dealer_info(url=url,
+                        data_return=data_return,
+                        dealer_id=dealer_id)
+        assert dealer_id in data_return
+        assert data_return.get(dealer_id) == json_data
