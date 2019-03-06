@@ -111,7 +111,7 @@ class TestCheckResponse(object):
         expected_error = ('Got unexpected status code {} from url '
                           '{}'.format(return_status, url))
         with pytest.raises(RuntimeError, match=expected_error):
-            check_response(url=url, response=mock_response)
+            check_response(url=url, response=mock_response.return_value)
 
     def test_bad_content(self):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
@@ -123,7 +123,7 @@ class TestCheckResponse(object):
                           'from url {} but got {}'
                           .format(url, return_content))
         with pytest.raises(RuntimeError, match=expected_error):
-            check_response(url=url, response=mock_response)
+            check_response(url=url, response=mock_response.return_value)
 
     def test_good_return(self):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
@@ -133,7 +133,8 @@ class TestCheckResponse(object):
         mock_response.return_value.status_code = 200
         mock_response.return_value.headers = {'content-type': return_content}
         mock_response.return_value.json.return_value = json_data
-        assert check_response(url=url, response=mock_response) == json_data
+        assert check_response(url=url,
+                              response=mock_response.return_value) == json_data
 
     #    @mock.patch('requests.get')
     #    def test_good_return(self, mock_get):
