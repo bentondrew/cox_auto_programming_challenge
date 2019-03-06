@@ -135,13 +135,3 @@ class TestCheckResponse(object):
         mock_response.return_value.json.return_value = json_data
         assert check_response(url=url,
                               response=mock_response.return_value) == json_data
-
-    #    @mock.patch('requests.get')
-    #    def test_good_return(self, mock_get):
-    #        url = 'https://vautointerview.azurewebsites.net/api/datasetid'
-    #        return_content = 'application/json'
-    #        json_data = {'test': True}
-    #        mock_get.return_value.status_code = 200
-    #        mock_get.return_value.headers = {'content-type': return_content}
-    #        mock_get.return_value.json.return_value = json_data
-    #        assert get_json_request(url=url) == json_data
