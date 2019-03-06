@@ -1,4 +1,3 @@
-import logging
 from threading import (Thread)
 from .request_tools import (get_json_request)
 
@@ -112,8 +111,6 @@ def get_data_for_vehicles(data_set_id, vehicle_ids):
         v_thread.join()
     for vehicle_id in download_return:
         vehicle_info = download_return[vehicle_id]
-        logging.info('Data for vehicle id {}: {}'
-                     .format(vehicle_id, vehicle_info))
         if 'error_message' in vehicle_info:
             if error_list:
                 error_list.append(vehicle_info)
@@ -199,13 +196,9 @@ def get_vehicle_data(url, data_return, vehicle_id):
                                            vehicle_info_dict,
                                            url))
         data_return[vehicle_id] = vehicle_info_dict
-        logging.info('data_return for url {}: {}'
-                     .format(url, data_return[vehicle_id]))
     except Exception as e:
         data_return[vehicle_id]['vehicleId'] = vehicle_id
         data_return[vehicle_id]['error_message'] = e
-        logging.info('data_return for url {}: {}'
-                     .format(url, data_return[vehicle_id]))
 
 
 def get_dealer_names(data_set_id, dealer_list):
@@ -228,8 +221,6 @@ def get_dealer_names(data_set_id, dealer_list):
     for dealer in dealer_list:
         dealer_id = dealer['dealerId']
         dealer_info = download_return[dealer_id]
-        logging.info('Data for dealer id {}: {}'
-                     .format(dealer_id, dealer_info))
         if 'error_message' in dealer_info:
             if error_list:
                 error_list.append(dealer_info)
@@ -268,10 +259,6 @@ def get_dealer_info(url, data_return, dealer_id):
                                            dealer_info_dict,
                                            url))
         data_return[dealer_id] = dealer_info_dict
-        logging.info('data_return for url {}: {}'
-                     .format(url, data_return[dealer_id]))
     except Exception as e:
         data_return[dealer_id]['dealerId'] = dealer_id
         data_return[dealer_id]['error_message'] = e
-        logging.info('data_return for url {}: {}'
-                     .format(url, data_return[dealer_id]))
