@@ -202,6 +202,77 @@ def get_vehicle_data(url, data_return, vehicle_id):
         logging.info('data_return for url {}: {}'
                      .format(url, data_return[vehicle_id]))
     except Exception as e:
+        data_return[vehicle_id]['vehicleId'] = vehicle_id
         data_return[vehicle_id]['error_message'] = e
         logging.info('data_return for url {}: {}'
                      .format(url, data_return[vehicle_id]))
+
+
+def get_dealer_names(data_set_id, dealer_list):
+    error_list = None
+    dealer_list = None
+    download_return = {}
+    thread_list = []
+    for dealer in dealer_list:
+        dealer_id = dealer['dealerId']
+        url = ('https://vautointerview.azurewebsites.net/api/{}/dealers/{}'
+               .format(data_set_id, dealer_id))
+        download_return[dealer_id] = {}
+        kwargs = {'url': url,
+                  'data_return': download_return,
+                  'dealer_id': dealer_id}
+        d_thread = Thread(target=get_dealer_info, kwargs=kwargs)
+        d_thread.start()
+        thread_list.append(d_thread)
+    for d_thread in thread_list:
+        d_thread.join()
+    for dealer in dealer_list:
+        dealer_id = dealer['dealerId']
+        dealer_info = download_return[dealer_id]
+        logging.info('Data for dealer id {}: {}'
+                     .format(dealer_id, dealer_info))
+        if 'error_message' in dealer_info:
+            if error_list:
+                error_list.append(dealer_info)
+            else:
+                error_list = [dealer_info]
+        else:
+            dealer['name'] = dealer_info['name']
+    return dealer_list, error_list
+
+
+def get_dealer_info(url, data_return, dealer_id):
+    try:
+        dealer_info_dict = get_json_request(url=url)
+        if type(dealer_info_dict) is not dict:
+            raise RuntimeError('Data returned {} from {} is not '
+                               'of type dict.'
+                               .format(dealer_info_dict, url))
+        expected_keys_and_types = {'name': str,
+                                   'dealerId': int}
+        for key in expected_keys_and_types:
+            if key not in dealer_info_dict:
+                raise RuntimeError('Key {} not found in dealer '
+                                   'info dict {} returned from '
+                                   'url {}'
+                                   .format(key,
+                                           dealer_info_dict,
+                                           url))
+            if type(dealer_info_dict
+                    [key]) is not expected_keys_and_types[key]:
+                raise RuntimeError('Value {} is not type {} '
+                                   'in dealer info '
+                                   'dict {} returned from url {}'
+                                   .format(dealer_info_dict[key],
+                                           expected_keys_and_types
+                                           [key],
+                                           dealer_info_dict,
+                                           url))
+        data_return[dealer_id] = dealer_info_dict
+        logging.info('data_return for url {}: {}'
+                     .format(url, data_return[dealer_id]))
+    except Exception as e:
+        data_return[dealer_id]['dealerId'] = dealer_id
+        data_return[dealer_id]['error_message'] = e
+        logging.info('data_return for url {}: {}'
+                     .format(url, data_return[dealer_id]))
