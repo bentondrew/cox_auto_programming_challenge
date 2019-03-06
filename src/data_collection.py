@@ -282,12 +282,12 @@ def get_dealer_info(url, data_return, dealer_id):
                                    'dealerId': int}
         for key in expected_keys_and_types:
             if key not in dealer_info_dict:
-                raise RuntimeError('Key {} not found in dealer '
-                                   'info dict {} returned from '
-                                   'url {}'
-                                   .format(key,
-                                           dealer_info_dict,
-                                           url))
+                raise KeyError('Key {} not found in dealer '
+                               'info dict {} returned from '
+                               'url {}'
+                               .format(key,
+                                       dealer_info_dict,
+                                       url))
             if type(dealer_info_dict
                     [key]) is not expected_keys_and_types[key]:
                 raise RuntimeError('Value {} is not type {} '
