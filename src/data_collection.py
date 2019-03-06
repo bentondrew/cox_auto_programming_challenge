@@ -195,7 +195,7 @@ def get_vehicle_data(url, data_return, vehicle_id):
         data_return[vehicle_id] = vehicle_info_dict
     except Exception as e:
         data_return[vehicle_id]['vehicleId'] = vehicle_id
-        data_return[vehicle_id]['error_message'] = e
+        data_return[vehicle_id]['error_message'] = str(e)
 
 
 def get_dealer_names(data_set_id, dealer_list):
@@ -301,4 +301,4 @@ def get_dealer_info(url, data_return, dealer_id):
         data_return[dealer_id] = dealer_info_dict
     except Exception as e:
         data_return[dealer_id]['dealerId'] = dealer_id
-        data_return[dealer_id]['error_message'] = e
+        data_return[dealer_id]['error_message'] = str(e)
