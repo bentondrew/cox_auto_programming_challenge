@@ -12,5 +12,6 @@ def main():
         logging.info('Merging vehicle and dealer information for '
                      'datasets.')
         print(merge())
+        logging.info('Done with merge.')
     except Exception:
         logging.error('Exception', exc_info=True)
