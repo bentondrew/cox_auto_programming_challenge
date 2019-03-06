@@ -176,12 +176,12 @@ def get_vehicle_data(url, data_return, vehicle_id):
                                    'dealerId': int}
         for key in expected_keys_and_types:
             if key not in vehicle_info_dict:
-                raise RuntimeError('Key {} not found in vehicle '
-                                   'info dict {} returned from '
-                                   'url {}'
-                                   .format(key,
-                                           vehicle_info_dict,
-                                           url))
+                raise KeyError('Key {} not found in vehicle '
+                               'info dict {} returned from '
+                               'url {}'
+                               .format(key,
+                                       vehicle_info_dict,
+                                       url))
             if type(vehicle_info_dict
                     [key]) is not expected_keys_and_types[key]:
                 raise RuntimeError('Value {} is not type {} '
