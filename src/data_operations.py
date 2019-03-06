@@ -3,6 +3,7 @@ from .data_collection import (get_dataset_id,
                               get_vehicle_ids,
                               get_data_for_vehicles,
                               get_dealer_names)
+from .request_tools import (post_json_request)
 
 
 def merge():
@@ -25,4 +26,7 @@ def merge():
         for item in error_list:
             logging.info('Error {} in getting info for dealer id {}'
                          .format(item['error_message'], item['dealerId']))
-    return data_set_id, vehicle_ids, dealer_list, error_list
+    dealer_dict = {'dealers': dealer_list}
+    post_url = ('https://vautointerview.azurewebsites.net/api/{}/answer'
+                .format(data_set_id))
+    return post_json_request(url=post_url, post_data=dealer_dict)
