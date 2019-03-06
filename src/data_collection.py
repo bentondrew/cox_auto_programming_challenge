@@ -143,7 +143,7 @@ def get_vehicle_data(url, data_return):
     https://vautointerview.azurewebsites.net/api/{datasetId}/vehicles/{vehicleId}
     url to get details for a specific vehicle id.
 
-    Does not catch exceptions.
+    Catches exceptions and adds them to error_message field.
 
     Fills in the provided data_return variable with the
     vehicle info. The vehicle info is a dict containing
@@ -165,33 +165,38 @@ def get_vehicle_data(url, data_return):
     attempts to access the expected keys to raise KeyError if
     the key doesn't exist.
     """
-    vehicle_info_dict = get_json_request(url=url)
-    if type(vehicle_info_dict) is not dict:
-        data_return['error_message'] = ('Data returned {} from {} is not of '
-                                        'type dict.'
-                                        .format(vehicle_info_dict, url))
-        return
-    expected_keys_and_types = {'vehicleId': int,
-                               'year': int,
-                               'make': str,
-                               'model': str,
-                               'dealerId': int}
-    for key in expected_keys_and_types:
-        if key not in vehicle_info_dict:
-            data_return['error_message'] = ('Key {} not found in vehicle info '
-                                            'dict {} returned from url {}'
-                                            .format(key,
-                                                    vehicle_info_dict,
-                                                    url))
+    try:
+        vehicle_info_dict = get_json_request(url=url)
+        if type(vehicle_info_dict) is not dict:
+            data_return['error_message'] = ('Data returned {} from {} is not '
+                                            'of type dict.'
+                                            .format(vehicle_info_dict, url))
             return
-        if type(vehicle_info_dict[key]) is not expected_keys_and_types[key]:
-            data_return['error_message'] = ('Value {} is not type {} '
-                                            'in vehicle info '
-                                            'dict {} returned from url {}'
-                                            .format(vehicle_info_dict[key],
-                                                    expected_keys_and_types
-                                                    [key],
-                                                    vehicle_info_dict,
-                                                    url))
-            return
-    data_return = vehicle_info_dict
+        expected_keys_and_types = {'vehicleId': int,
+                                   'year': int,
+                                   'make': str,
+                                   'model': str,
+                                   'dealerId': int}
+        for key in expected_keys_and_types:
+            if key not in vehicle_info_dict:
+                data_return['error_message'] = ('Key {} not found in vehicle '
+                                                'info dict {} returned from '
+                                                'url {}'
+                                                .format(key,
+                                                        vehicle_info_dict,
+                                                        url))
+                return
+            if type(vehicle_info_dict
+                    [key]) is not expected_keys_and_types[key]:
+                data_return['error_message'] = ('Value {} is not type {} '
+                                                'in vehicle info '
+                                                'dict {} returned from url {}'
+                                                .format(vehicle_info_dict[key],
+                                                        expected_keys_and_types
+                                                        [key],
+                                                        vehicle_info_dict,
+                                                        url))
+                return
+        data_return = vehicle_info_dict
+    except Exception as e:
+        data_return['error_message'] = e
