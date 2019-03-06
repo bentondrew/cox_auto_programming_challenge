@@ -16,6 +16,7 @@ def main():
                      'milliseconds.'
                      .format(merge_results['success'],
                              merge_results['totalMilliseconds']))
-        logging.info('Merge status message: {}'.merge_results['message'])
+        logging.info('Merge status message: {}'
+                     .format(merge_results['message']))
     except Exception:
         logging.error('Exception', exc_info=True)
