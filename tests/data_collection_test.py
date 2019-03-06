@@ -167,7 +167,7 @@ class TestGetVehicleData(object):
         expected_error = ('Got unexpected status code {} from url '
                           '{}'.format(return_status, url))
         mock_get.side_effect = RuntimeError(expected_error)
-        data_return = {}
+        data_return = {vehicle_id: {}}
         get_vehicle_data(url=url,
                          data_return=data_return,
                          vehicle_id=vehicle_id)
@@ -191,7 +191,7 @@ class TestGetVehicleData(object):
                           'from url {} but got {}'
                           .format(url, return_content))
         mock_get.side_effect = RuntimeError(expected_error)
-        data_return = {}
+        data_return = {vehicle_id: {}}
         get_vehicle_data(url=url,
                          data_return=data_return,
                          vehicle_id=vehicle_id)
@@ -215,7 +215,7 @@ class TestGetVehicleData(object):
         expected_error = ('Data returned {} from {} is not of type '
                           'dict.'.format(json_data, url))
         mock_get.return_value = json_data
-        data_return = {}
+        data_return = {vehicle_id: {}}
         get_vehicle_data(url=url,
                          data_return=data_return,
                          vehicle_id=vehicle_id)
@@ -244,7 +244,7 @@ class TestGetVehicleData(object):
                           .format(json_data,
                                   url))
         mock_get.return_value = json_data
-        data_return = {}
+        data_return = {vehicle_id: {}}
         get_vehicle_data(url=url,
                          data_return=data_return,
                          vehicle_id=vehicle_id)
@@ -274,7 +274,7 @@ class TestGetVehicleData(object):
                           .format(json_data,
                                   url))
         mock_get.return_value = json_data
-        data_return = {}
+        data_return = {vehicle_id: {}}
         get_vehicle_data(url=url,
                          data_return=data_return,
                          vehicle_id=vehicle_id)
@@ -300,7 +300,7 @@ class TestGetVehicleData(object):
                      'model': 'test',
                      'dealerId': 1}
         mock_get.return_value = json_data
-        data_return = {}
+        data_return = {vehicle_id: {}}
         get_vehicle_data(url=url,
                          data_return=data_return,
                          vehicle_id=vehicle_id)
