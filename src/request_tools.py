@@ -12,16 +12,7 @@ def get_json_request(url):
     data objects.
     """
     resp = requests.get(url)
-    if resp.status_code == 200:
-        if 'application/json' in resp.headers['content-type']:
-            return resp.json()
-        else:
-            raise RuntimeError('Expected json content type '
-                               'from url {} but got {}'
-                               .format(url, resp.headers['content-type']))
-    else:
-        raise RuntimeError('Got unexpected status code {} from url {}'
-                           .format(resp.status_code, url))
+    return check_response(url=url, response=resp)
 
 
 def post_json_request(url, post_data):
@@ -36,13 +27,17 @@ def post_json_request(url, post_data):
     data objects.
     """
     resp = requests.post(url, json=post_data)
-    if resp.status_code == 200:
-        if 'application/json' in resp.headers['content-type']:
-            return resp.json()
+    return check_response(url=url, response=resp)
+
+
+def check_response(url, response):
+    if response.status_code == 200:
+        if 'application/json' in response.headers['content-type']:
+            return response.json()
         else:
             raise RuntimeError('Expected json content type '
                                'from url {} but got {}'
-                               .format(url, resp.headers['content-type']))
+                               .format(url, response.headers['content-type']))
     else:
         raise RuntimeError('Got unexpected status code {} from url {}'
-                           .format(resp.status_code, url))
+                           .format(response.status_code, url))
