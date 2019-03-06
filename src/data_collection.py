@@ -154,17 +154,14 @@ def get_vehicle_data(url, data_return, vehicle_id):
     save the error for that vehicle id in the dict under the
     key error_message. These errors are not raised as it is
     anticipated that an error for one may not mean all will
-    error. Any vehicle with an error will be saved in an
-    error list which is returned separately.
+    error.
 
     Adds error_message for  if data back from url is not a dict
     with the keys of vehicleId, year, make, model, dealerId.
     The vehicleId is expected to be an integer. The year
     is expected to be an integer. The make is expected to
     be a string. The model is expected to be a string. The
-    dealerId is expected to be an integer. Explicitly
-    attempts to access the expected keys to raise KeyError if
-    the key doesn't exist.
+    dealerId is expected to be an integer.
     """
     try:
         vehicle_info_dict = get_json_request(url=url)
@@ -202,6 +199,28 @@ def get_vehicle_data(url, data_return, vehicle_id):
 
 
 def get_dealer_names(data_set_id, dealer_list):
+    """
+    Calls get_dealer_info to get details for a specific
+    dealer id at the url
+    https://vautointerview.azurewebsites.net/api/{datasetId}/dealers/{dealerId}.
+
+    Does not catch exceptions.
+
+    Returns an updated dealer list where the name has been added
+    for each dealer and an error list.
+
+    The dealer list contains a list of dicts which contain
+    the dealerId, name, and the list of vehicles for each dealer.
+    Each vehicle in the list of vehicles is a dict containing
+    the vehicleId, year, make, and model keys.
+
+    If an error occurs when downloading dealer info, will
+    save the error for that dealer id in the dict under the
+    key error_message. These errors are not raised as it is
+    anticipated that an error for one may not mean all will
+    error. Any dealer with an error will be saved in an
+    error list which is returned separately.
+    """
     error_list = None
     download_return = {}
     thread_list = []
@@ -232,6 +251,27 @@ def get_dealer_names(data_set_id, dealer_list):
 
 
 def get_dealer_info(url, data_return, dealer_id):
+    """
+    Makes requests to the
+    https://vautointerview.azurewebsites.net/api/{datasetId}/dealers/{dealerId}
+    url to get details for a specific dealer id.
+
+    Catches exceptions and adds them to error_message field.
+
+    Adds the name field for the dealer in the provided data_return variable
+    which comes from the downloaded dealer info.
+
+    If an error occurs when downloading dealer info, will
+    save the error for that dealer id in the dict under the
+    key error_message. These errors are not raised as it is
+    anticipated that an error for one may not mean all will
+    error.
+
+    Adds error_message if data back from url is not a dict
+    with the keys of dealerId and name.
+    The dealerId is expected to be an integer. The name is
+    expected to be a string.
+    """
     try:
         dealer_info_dict = get_json_request(url=url)
         if type(dealer_info_dict) is not dict:

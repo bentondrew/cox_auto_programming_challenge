@@ -5,7 +5,7 @@ def get_json_request(url):
     """
     Makes a get request to the provided url.
 
-    Raises Runtime errors if the HTTP status code is
+    Raises Runtime errors if the response HTTP status code is
     not 200 or the content-type is not application/json.
 
     Returns the json data in the body encoded in python
@@ -25,6 +25,16 @@ def get_json_request(url):
 
 
 def post_json_request(url, post_data):
+    """
+    Makes a post request to the provided url with the provided data
+    as json in the post request.
+
+    Raises Runtime errors if the response HTTP status code is
+    not 200 or the content-type is not application/json.
+
+    Returns the json data in the body encoded in python
+    data objects.
+    """
     resp = requests.post(url, json=post_data)
     if resp.status_code == 200:
         if 'application/json' in resp.headers['content-type']:

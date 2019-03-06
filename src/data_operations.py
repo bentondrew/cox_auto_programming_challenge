@@ -7,6 +7,23 @@ from .request_tools import (post_json_request)
 
 
 def merge():
+    """
+    Gets the data set id from the challenge API.
+    Then gets the list of vehicle ids for that data set.
+    Generates a list of dealers by id and a list of vehicles
+    for each dealer based off of the vehicle details for the
+    list of vehicle ids for the data set.
+    Adds the dealer name for each dealer id in the dealer list.
+    Submits the dealer list to the answer API endpoint.
+
+    Doesn't catch errors.
+
+    Logs errors in getting vehicle and dealer info without stopping
+    execution.
+
+    Returns the python object generated from the json response of the
+    answer submission.
+    """
     logging.info('Getting data set id.')
     data_set_id = get_dataset_id()
     logging.info('Getting vehicle ids for data set id {}.'
