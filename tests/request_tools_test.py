@@ -10,7 +10,7 @@ class TestGetJson(object):
     addition to testing the calling of this function by the
     merge function.
     """
-    @mock.patch('check_response')
+    @mock.patch('cox_auto_app.request_tools.check_response')
     @mock.patch('requests.get')
     def test_bad_status(self, mock_get, mock_check):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
@@ -22,7 +22,7 @@ class TestGetJson(object):
         with pytest.raises(RuntimeError, match=expected_error):
             get_json_request(url=url)
 
-    @mock.patch('check_response')
+    @mock.patch('cox_auto_app.request_tools.check_response')
     @mock.patch('requests.get')
     def test_bad_content(self, mock_get, mock_check):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
@@ -36,7 +36,7 @@ class TestGetJson(object):
         with pytest.raises(RuntimeError, match=expected_error):
             get_json_request(url=url)
 
-    @mock.patch('check_response')
+    @mock.patch('cox_auto_app.request_tools.check_response')
     @mock.patch('requests.get')
     def test_good_return(self, mock_get, mock_check):
         url = 'https://vautointerview.azurewebsites.net/api/datasetid'
