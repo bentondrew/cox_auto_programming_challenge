@@ -238,9 +238,9 @@ class TestGetVehicleData(object):
                      'year': 1,
                      'model': 'test',
                      'dealerId': 1}
-        expected_error = ('Key make not found in vehicle '
+        expected_error = ('"Key make not found in vehicle '
                           'info dict {} returned from '
-                          'url {}'
+                          'url {}"'
                           .format(json_data,
                                   url))
         mock_get.return_value = json_data
