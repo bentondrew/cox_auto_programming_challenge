@@ -27,6 +27,7 @@ docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/request_tools_tes
 ```Bash
 docker run --rm --entrypoint pytest cox_auto_app:0.0.1 ./tests/data_operations_test.py
 ```
+* Note: Currently only tests good execution of merge function.
 
 ### Run data collection unit tests
 ```Bash
