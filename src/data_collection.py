@@ -210,7 +210,6 @@ def get_vehicle_data(url, data_return, vehicle_id):
 
 def get_dealer_names(data_set_id, dealer_list):
     error_list = None
-    dealer_list = None
     download_return = {}
     thread_list = []
     for dealer in dealer_list:
