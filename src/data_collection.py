@@ -103,7 +103,8 @@ def get_data_for_vehicles(data_set_id, vehicle_ids):
                .format(data_set_id, vehicle_id))
         download_return[vehicle_id] = {}
         kwargs = {'url': url,
-                  'data_return': download_return[vehicle_id]}
+                  'data_return': download_return,
+                  'vehicle_id': vehicle_id}
         v_thread = Thread(target=get_vehicle_data, kwargs=kwargs)
         v_thread.start()
         thread_list.append(v_thread)
@@ -140,7 +141,7 @@ def get_data_for_vehicles(data_set_id, vehicle_ids):
     return dealer_list, error_list
 
 
-def get_vehicle_data(url, data_return):
+def get_vehicle_data(url, data_return, vehicle_id):
     """
     Makes requests to the
     https://vautointerview.azurewebsites.net/api/{datasetId}/vehicles/{vehicleId}
@@ -197,10 +198,10 @@ def get_vehicle_data(url, data_return):
                                            [key],
                                            vehicle_info_dict,
                                            url))
-        data_return = vehicle_info_dict
+        data_return[vehicle_id] = vehicle_info_dict
         logging.info('data_return for url {}: {}'
-                     .format(url, data_return))
+                     .format(url, data_return[vehicle_id]))
     except Exception as e:
-        data_return['error_message'] = e
+        data_return[vehicle_id]['error_message'] = e
         logging.info('data_return for url {}: {}'
-                     .format(url, data_return))
+                     .format(url, data_return[vehicle_id]))
